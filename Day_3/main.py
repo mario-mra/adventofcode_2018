@@ -68,20 +68,31 @@ def parse_claims(claims):
             pass
     return p_claims
 
+def input_process(file_name="input"):
+    input_file = open(file_name, 'r')
+    claims = input_file.read().split('\n')
+    input_file.close()
 
-input_file = open("input", 'r')
-claims = input_file.read().split('\n')
-input_file.close()
+    p_claims = parse_claims(claims)
 
-p_claims = parse_claims(claims)
+    return p_claims
 
-fa = fabric(1000, 1000)
-fa.add_claims(p_claims)
+def fabric_process(claims):
+    fa = fabric(1000, 1000)
+    fa.add_claims(claims)
 
-for i in p_claims:
-    if(i.overlap == False):
-        print("Claim that doesn't overlap: {}. At: {}".format(i.id, i.offset))
+    return fa
 
-fa.print_fabric()
-# print(fa.count_overlaps())
-# print(fa.fabric)
+
+
+if(__name__ == "__main__"):
+    p_claims = input_process()
+    fa = fabric_process(p_claims)
+
+    for i in p_claims:
+        if(i.overlap == False):
+            print("Claim that doesn't overlap: {}. At: {}".format(i.id, i.offset))
+
+    # fa.print_fabric()
+    # print(fa.count_overlaps())
+    # print(fa.fabric)
